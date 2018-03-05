@@ -1,6 +1,4 @@
-# Group members: Wei Zhong(wzhong8); Nan Yang(nanyang4)
-# Brief summary: Each of us finished the whole assignment independently, and we combine our code.
-
+# requirement of this assignment: try to use the basic methods of python to do analysis, avoid using pandas and numpy modules.
 
 from datetime import datetime
 from pygeodesy import ellipsoidalVincenty as ev
