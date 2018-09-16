@@ -5,6 +5,7 @@
 2. Create a new list from a mixed-type list, keeping only the number type items. In other words, it ignores strings, tuples, sublists, dictionaries, etc.
 3. Rearrange a string so that every word gets spelled backwards but the sequence of words and any punctuation stays the same.
 4. Given a list contains other lists nested to any depth, compute a new 1-dimensional list containing all the original non-list values in the same order. Non-list collections are kept as-is, not flattened, even if they contain other lists.
+5. Given a cubical ndarray, search all subcubes (all proper and the improper one), to find which one has the maximum sum. Since there are negative numbers in the values, there's no way to predict where it will be, and there's no theoretical advantage for largest subcubes vs medium ones.
 
 
 ## HURDAT2 data file processing
@@ -22,3 +23,5 @@ I wrote a python program to do the following things:
 
 2. I investigate a scientific hypothesis: Based on physics, I expect that the quadrant with the
 highest winds (and therefore longest radius of high wind) should typically be somewhere between 45-90 degrees clockwise of the storm’s recent direction of movement. To determine this, between each pair of data samples, I compute the initial compass bearing (in degrees) of the storm’s movement. Then I look at the columns of data for the highest level of non-zero radii (64-kt, 50-kt, or 34-kt) at that time, to see if it did fall into that quadrant or not (True or False). Finally, for the whole data set, I show what % of the time this was true.
+
+
