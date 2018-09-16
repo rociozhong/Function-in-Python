@@ -186,3 +186,6 @@ def find_max_subcube(a: np.ndarray, show_intermediate_results=True) -> np.ndarra
 
 
 
+if __name__ == '__main__':
+    cube = np.load(file='A4_cube_size5_example.npy', allow_pickle=False, mmap_mode=None)
+    sc = find_max_subcube(cube)
