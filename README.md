@@ -4,4 +4,4 @@ In this project, I work with a historical data called “HURDAT2”. From http:/
 
 I wrote a python program to do the following things:
 1. As it reads those data files, it compute and print out the following data for each storm system:
-  + storm system name
+   a) storm system name
