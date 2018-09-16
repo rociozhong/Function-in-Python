@@ -122,3 +122,67 @@ def sum_list_numbers(x: list) -> float:
     """
     flatten = flatten_list(x)
     return round(sum(i for i in flatten if isinstance(i, (int, float))),1)
+
+
+import numpy as np
+
+
+def find_max_subcube(a: np.ndarray, show_intermediate_results=True) -> np.ndarray:
+    """Given a cubical ndarray, search all subcubes (all proper
+    and the improper one), to find which one has the maximum sum.
+    Since there are negative numbers in the values, there's no
+    way to predict where it will be, and there's no theoretical
+    advantage for largest subcubes vs medium ones.
+    :param a: the whole array to search
+    :param show_intermediate_results: whether to print results per subcube size
+    :return: the subcube ndarray that had max sum
+    >>> cube = np.load(file='A4_cube_size5_example.npy', allow_pickle=False, mmap_mode=None)
+    >>> cube[4,4,4]
+    -97.094082653629087
+    >>> m = find_max_subcube(cube)
+    searching cube of width 5
+    checking all subcubes of width  1, of which     125 exist.  Highest sum    95.15 found at position (3, 4, 2)
+    checking all subcubes of width  2, of which      64 exist.  Highest sum   355.41 found at position (1, 3, 3)
+    checking all subcubes of width  3, of which      27 exist.  Highest sum   433.42 found at position (0, 0, 1)
+    checking all subcubes of width  4, of which       8 exist.  Highest sum   310.35 found at position (0, 1, 1)
+    checking all subcubes of width  5, of which       1 exist.  Highest sum   -38.25 found at position (0, 0, 0)
+    <BLANKLINE>
+    Total number of subcubes checked: 225
+    Highest sum found was 433.415033731 in a subcube of width 3 at position (0, 0, 1)
+    """
+    global_max = -np.inf
+    global_result = (0, 0, 0)
+    global_k = 1
+    dim = a.shape
+    n = dim[0]
+    total_num = 0
+    for k in range(1, n + 1):
+        local_max = -np.inf
+        local_result = (0, 0, 0)
+        num_cubes = (n - k + 1) ** 3
+        total_num += num_cubes
+        for i in range(n - k + 1):
+            for j in range(n - k + 1):
+                for l in range(n - k + 1):
+                    temp = np.sum(a[i:(i + k), j:(j + k), l:(l + k)])
+                    if temp > local_max:
+                        local_max = temp
+                        local_result = (i, j, l)
+        if local_max > global_max:
+            global_max = local_max
+            global_result = local_result
+            global_k = k
+
+        if show_intermediate_results:
+            print("checking all subcubes of width {0}".format(k), ", of which {0}".format(num_cubes),
+                  "exist. Highest sum {0: 0.2f}".format(local_max), "found at position {0}\n".format(local_result))
+
+    print("Total number of subcubes checked {0}".format(total_num), "Highest sum found was {0}".format(global_max),
+          "in a subcube of width {0}".format(global_k), "at position {0}".format(global_result))
+
+    i, j, l = global_result
+
+    return a[i:(i + global_k), j:(j + global_k), l:(l + global_k)]
+
+
+
