@@ -1,26 +1,65 @@
-# requirement of this assignment: try to use the basic methods of python to do analysis, avoid using pandas and numpy modules.
-
 from datetime import datetime
 from pygeodesy import ellipsoidalVincenty as ev
 import math
 
 
-def preprocess_Lon(longitude: str) -> str:
+def flip_direction(direction: str) -> str:
+    """Given a compass direction 'E', 'W', 'N', or 'S', return the opposite.
+    Raises exception with none of those.
+
+    :param direction: a string containing 'E', 'W', 'N', or 'S'
+    :return: a string containing 'E', 'W', 'N', or 'S'
+    """
+    if direction == 'E':
+        return 'W'
+    elif direction == 'W':
+        return 'E'
+    elif direction == 'N':
+        return 'S'
+    elif direction == 'S':
+        return 'N'
+    else:
+        raise ValueError('Invalid or unsupported direction {} given.'.format(direction))
+
+
+def myLon(lon: str):
+    """Given a longitude, normalize them if necessary,
+    to return a valid longitude.
+
+    :param lon: the longitude as a string
     """
 
-    checks Longitude entry and convert invalid entry of Longitude to valid entry that is within range (-180, 180)
-    :param longitude: original Longitude entry (string)
-    :return: valid Longitude value (string)
-    """
+    # get number portion:
+    if lon[-1] in ['E', 'W']:
+        lon_num = float(lon[:-1])  # get rid of direction
+        lon_dir = lon[-1]  # direction
+    else:
+        lon_num = float(lon)
+    if lon_num > 180.0:  # Does longitude exceed range?
+        lon_num = 360.0 - lon_num
+        lon_dir = flip_direction(lon_dir)
+        lon = str(lon_num) + lon_dir
 
-    if -180 < float(longitude[:-1]) and float(longitude[:-1]) < 180:
-        longitude = longitude
-    while float(longitude[:-1]) < -180:
-        longitude = str(round(float(longitude[:-1]) + 360, 1)) + 'W'
-    while float(longitude[:-1]) > 180:
-        longitude = str(round(float(longitude[:-1]) - 360, 1)) + 'W'
+    return lon
 
-    return longitude
+
+
+# def preprocess_Lon(longitude: str) -> str:
+#     """
+#
+#     checks Longitude entry and convert invalid entry of Longitude to valid entry that is within range (-180, 180)
+#     :param longitude: original Longitude entry (string)
+#     :return: valid Longitude value (string)
+#     """
+#
+#     if -180 < float(longitude[:-1]) and float(longitude[:-1]) < 180:
+#         longitude = longitude
+#     while float(longitude[:-1]) < -180:
+#         longitude = str(round(float(longitude[:-1]) + 360, 1)) + 'W'
+#     while float(longitude[:-1]) > 180:
+#         longitude = str(round(float(longitude[:-1]) - 360, 1)) + 'W'
+#
+#     return longitude
 
 
 cycloneList = []
@@ -47,7 +86,7 @@ with open("atlantic.csv") as f:
 
             for i in range(cyclone["numberOfRecords"]):
                 line = list(map(str.strip, f.readline().strip().split(",")))
-                cyclone["coordinate"].append((line[4], preprocess_Lon(line[5])))
+                cyclone["coordinate"].append((line[4], myLon(line[5])))
                 cyclone["time"].append((line[0], line[1]))
                 cyclone["34kt_radii"].append(line[8:12])
                 cyclone["50kt_radii"].append(line[12:16])
