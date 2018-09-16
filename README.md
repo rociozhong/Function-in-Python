@@ -1,6 +1,11 @@
-## Python Examples
+# Python Examples
 
 ## Write functions and test-driven design (TDD) process
+1. Given an arbitrary string, convert every odd character to upper case and even to lower-case (or vice-versa)
+2. Create a new list from a mixed-type list, keeping only the number type items. In other words, it ignores strings, tuples, sublists, dictionaries, etc.
+3. Rearrange a string so that every word gets spelled backwards but the sequence of words and any punctuation stays the same.
+4. Given a list contains other lists nested to any depth, compute a new 1-dimensional list containing all the original non-list values in the same order. Non-list collections are kept as-is, not flattened, even if they contain other lists.
+
 
 ## HURDAT2 data file processing
 
